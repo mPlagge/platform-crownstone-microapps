@@ -1,0 +1,41 @@
+{
+  "build": {
+    "core": "nRF5",
+    "cpu": "cortex-m4",
+    "extra_flags": "-DARDUINO_NRF52_DK",
+    "f_cpu": "64000000L",
+    "mcu": "nrf52832",
+    "variant": "nRF52DK"
+  },
+  "connectivity": [
+    "bluetooth"
+  ],
+  "debug": {
+    "default_tools": [
+      "jlink"
+    ],
+    "jlink_device": "nRF52832_xxAA",
+    "onboard_tools": [
+      "cmsis-dap",
+      "jlink"
+    ],
+    "svd_path": "nrf52.svd"
+  },
+  "frameworks": [
+    "arduino"
+  ],
+  "platforms": [
+    "cw-microapps"
+  ],
+  "name": "Crownstone NRF52_DK",
+  "upload": {
+    "maximum_ram_size": 2048,
+    "maximum_size": 16384,
+    "protocol": "microapp",
+    "protocols": [
+      "microapp"
+    ]
+  },
+  "url": "...",
+  "vendor": "Crownstone"
+}
