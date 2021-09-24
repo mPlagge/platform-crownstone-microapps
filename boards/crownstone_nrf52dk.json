@@ -22,7 +22,7 @@
     "svd_path": "nrf52.svd"
   },
   "frameworks": [
-    "arduino"
+    "framework-cs-arduino"
   ],
   "platforms": [
     "cw-microapps"

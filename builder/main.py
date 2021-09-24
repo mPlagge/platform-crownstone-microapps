@@ -6,27 +6,17 @@ from SCons.Script import AlwaysBuild, Builder, Default, DefaultEnvironment, COMM
 env = DefaultEnvironment()
 
 env.Append(
-    ARFLAGS=["..."],
-
-    ASFLAGS=["flag1", "flag2", "flagN"],
-    CCFLAGS=["flag1", "flag2", "flagN"],
-    CXXFLAGS=["flag1", "flag2", "flagN"],
-    LINKFLAGS=["flag1", "flag2", "flagN"],
-
-    CPPDEFINES=["DEFINE_1", "DEFINE=2", "DEFINE_N"],
-
-    LIBS=["additional", "libs", "here"],
-
     BUILDERS=dict(
-        ElfToBin=Builder(
-            action=" ".join([
+        ElfToHex=Builder(
+            action=env.VerboseAction(" ".join([
                 "$OBJCOPY",
                 "-O",
-                "binary",
+                "ihex",
                 "$SOURCES",
-                "$TARGET"]),
-            suffix=".bin"
-        )
+                "$TARGET"
+            ]), "Buidling $TARGET"),
+            suffix=".hex"
+        ),
     )
 )
 
@@ -36,16 +26,34 @@ env.Replace(
     CC="gcc",
     CXX="g++",
     OBJCOPY="objcopy",
-    RANLIB="ranlib",
-
-    UPLOADER=join("$PIOPACKAGES_DIR", "tool-bar", "uploader"),
-    UPLOADCMD="$UPLOADER $SOURCES"
 )
 
-#target_elf = env.BuildProgram()
-#target_bin = env.ElfToBin(join("$BUILD_DIR", "firmware"), target_elf)
+env.Replace(
+    CC="arm-none-eabi-gcc",
+    CXX="arm-none-eabi-g++",
+    OBJCOPY="arm-none-eabi-objcopy",
+)
 
 
-#if "uploadble" in COMMAND_LINE_TARGETS:
-#    sys.stdeff.write("Error: Function not implemented")
-#    env.Exit(1)
+target_elf = env.BuildProgram()
+target_hex = env.ElfToHex(join("$BUILD_DIR", "firmware"), target_elf)
+
+#################
+# Uploader
+#################
+
+upload_protocol = env.subst("$UPLOAD_PROTOCOL")
+
+if upload_protocol == "microapp":
+    env.Replace(
+        UPLOADER="nrfjprog",
+        UPLOADERFLAGS=[
+            "--sectorerase" if "DFUBOOTHEX" in env else "--chiperase",
+        ],
+        UPLOADCMD="$UPLOADER -f nrf52 --program $SOURCE --sectorerase --reset"
+    )
+    upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
+else:
+    print("Unknown upload protocol")
+
+Default(target_hex)

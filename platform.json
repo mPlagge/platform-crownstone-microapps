@@ -1,5 +1,5 @@
 {
-  "name": "cw-microapps",
+  "name": "cs-microapps",
   "title": "Crownstone Mircoapps",
   "description": "Upload microapps to Crownstone's opperatingsystem Bluenet.",
   "homepage": "https://crownstone.rocks",
@@ -11,7 +11,7 @@
   },
   "version": "0.0.0",
   "frameworks": {
-    "cs_arduino": {
+    "arduino": {
       "package": "framework-cs-arduino",
       "script": "builder/frameworks/cs_arduino.py"
     }
