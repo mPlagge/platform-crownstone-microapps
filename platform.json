@@ -36,7 +36,7 @@
       "owner": "platformio",
       "version": "~1.90702.0"
     },
-    "frameworks-cs-arduino": {
+    "framework-cs-arduino": {
       "type": "framework",
       "optional": true,
       "owner": "Crownstone",
