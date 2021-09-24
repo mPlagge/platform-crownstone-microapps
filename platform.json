@@ -1,10 +1,10 @@
 {
-  "name": "cs-microapps",
-  "title": "Crownstone Mircoapps",
-  "description": "Upload microapps to Crownstone's opperatingsystem Bluenet.",
-  "homepage": "https://crownstone.rocks",
+  "name": "developement-microapps",
+  "title": "Development Mircoapps",
+  "description": "Upload microapps",
+  "homepage": "",
   "license": "",
-  "keywords": ["Crownstone", "Bluenet","Microapp"],
+  "keywords": ["microapps"],
   "repository": {
     "type": "git",
     "url": "https://github.com/mPlagge/platform-crownstone-microapps.git"
@@ -12,7 +12,7 @@
   "version": "0.0.0",
   "frameworks": {
     "arduino": {
-      "package": "framework-cs-arduino",
+      "package": "framework-cs-arduino-development",
       "script": "builder/frameworks/cs_arduino.py"
     }
   },
@@ -36,10 +36,9 @@
       "owner": "platformio",
       "version": "~1.90702.0"
     },
-    "framework-cs-arduino": {
+    "framework-cs-arduino-development": {
       "type": "framework",
       "optional": true,
-      "owner": "crownstone",
       "version": "0.0.0"
     }
   }
