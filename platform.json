@@ -38,7 +38,7 @@
     },
     "frameworks-cs-arduino": {
       "type": "framework",
-      "optional": false,
+      "optional": true,
       "owner": "Crownstone",
       "version": "0.0.0"
     }
