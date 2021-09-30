@@ -17,6 +17,36 @@ env.Append(
             ]), "Buidling $TARGET"),
             suffix=".hex"
         ),
+        # step 2
+        #SetLinkerFiles=Builder(
+        #    action=env.VerboseAction("$CC -CC -E -P -x c -I$MICROAPPS_INCLUDE $MICROAPPS_SYMBOLS_INPUT -o $MICROAPPS_SYMBOLS_OUTPUT",
+        #     "Building"),
+        #    suffix=".tmp"
+        #),
+        # step 3
+        #CompileWithoutHeaders=Builder(
+        #    action=env.VerboseAction(
+        #    "",
+        #     "Buidling $TARGET"),
+        #    suffix=".elf.tmp"
+        #),
+        MergeHex=Builder(
+            action=env.VerboseAction(" ".join([
+                join(platform.get_package_dir("tool-sreccat") or "",
+                     "srec_cat"),
+                "$SOFTDEVICEHEX",
+                "-intel",
+                "$SOURCES",
+                "-intel",
+                "-o",
+                "$TARGET",
+                "-intel",
+                "--line-length=44"
+            ]), "Building $TARGET"),
+            suffix=".hex"
+        )
+
+
     )
 )
 
@@ -34,9 +64,18 @@ env.Replace(
     OBJCOPY="arm-none-eabi-objcopy",
 )
 
+#################
+# Building steps
+################
 
+# Set linker files
+env.VerboseAction(
+    "$CC -CC -E -P -x c -I$MICROAPPS_INCLUDE $MICROAPPS_SYMBOLS_INPUT -o $MICROAPPS_SYMBOLS_OUTPUT",
+    "Building linker files"
+) 
+
+# Build elf file
 target_elf = env.BuildProgram()
-target_hex = env.ElfToHex(join("$BUILD_DIR", "firmware"), target_elf)
 
 #################
 # Uploader
@@ -56,4 +95,4 @@ if upload_protocol == "microapp":
 else:
     print("Unknown upload protocol")
 
-Default(target_hex)
+Default(target_elf)
